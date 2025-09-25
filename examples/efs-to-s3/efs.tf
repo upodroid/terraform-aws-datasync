@@ -81,7 +81,7 @@ resource "aws_security_group" "MyEfsSecurityGroup" {
     cidr_blocks = [var.vpc_cidr_block]
   }
   #outbound connections for EFS Mount Target to reach to AWS services
-  #tfsec:ignore:aws-ec2-no-public-egress-sgr
+  #checkov:skip=CKV_AWS_382: EFS mount target requires egress to AWS services for DataSync operations
   egress {
     from_port   = 0
     to_port     = 0

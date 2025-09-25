@@ -17,7 +17,7 @@ To configure one or more S3 Locations use the `s3_locations` variable. It is a l
 - `s3_bucket_arn` - (Required) Amazon Resource Name (ARN) of the S3 Bucket.
 - `s3_config_bucket_access_role_arn` - (Optional) ARN of the IAM Role used to connect to the S3 Bucket. Must be provided if `create_role` is set to false.
 - `s3_storage_class` - (Optional) The Amazon S3 storage class that you want to store your files in when this location is used as a task destination.
-- `3_source_bucket_kms_arn` - (Optional) ARN of the KMS Customer Managed Key to encrypt the source S3 Objects. 
+- `3_source_bucket_kms_arn` - (Optional) ARN of the KMS Customer Managed Key to encrypt the source S3 Objects.
 - `3_source_bucket_kms_arn` - (Optional) ARN of the KMS Customer Managed Key to encrypt the destination S3 Objects.
 - `subdirectory` - (Optional) Prefix to perform actions as source or destination.
 - `tags` - (Optional) Key-value pairs of resource tags to assign to the DataSync Location.
@@ -57,20 +57,22 @@ No modules.
 |------|------|
 | [aws_datasync_location_efs.efs_location](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/datasync_location_efs) | resource |
 | [aws_datasync_location_s3.s3_location](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/datasync_location_s3) | resource |
+| [aws_iam_policy.datasync_role_kms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.datasync_role_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.datasync_role_kms_policy_attachement](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_efs_locations"></a> [efs\_locations](#input\_efs\_locations) | A list of EFS locations and associated configuration | <pre>list(object({<br>    name                           = string<br>    access_point_arn               = optional(string)<br>    ec2_config_security_group_arns = list(string)<br>    ec2_config_subnet_arn          = string<br>    efs_file_system_arn            = string<br>    file_system_access_role_arn    = optional(string)<br>    in_transit_encryption          = optional(string)<br>    subdirectory                   = optional(string)<br>    tags                           = optional(map(string))<br>  }))</pre> | `[]` | no |
-| <a name="input_s3_locations"></a> [s3\_locations](#input\_s3\_locations) | A list of S3 locations and associated configuration | <pre>list(object({<br>    name                             = string<br>    agent_arns                       = optional(list(string))<br>    s3_bucket_arn                    = string<br>    s3_config_bucket_access_role_arn = optional(string)<br>    s3_storage_class                 = optional(string)<br>    subdirectory                     = optional(string)<br>    tags                             = optional(map(string))<br>    create_role                      = optional(bool)<br>  }))</pre> | `[]` | no |
+| <a name="input_efs_locations"></a> [efs\_locations](#input\_efs\_locations) | A list of EFS locations and associated configuration | <pre>list(object({<br/>    name                           = string<br/>    access_point_arn               = optional(string)<br/>    ec2_config_security_group_arns = list(string)<br/>    ec2_config_subnet_arn          = string<br/>    efs_file_system_arn            = string<br/>    file_system_access_role_arn    = optional(string)<br/>    in_transit_encryption          = optional(string)<br/>    subdirectory                   = optional(string)<br/>    tags                           = optional(map(string))<br/>  }))</pre> | `[]` | no |
+| <a name="input_s3_locations"></a> [s3\_locations](#input\_s3\_locations) | A list of S3 locations and associated configuration | <pre>list(object({<br/>    name                             = string<br/>    agent_arns                       = optional(list(string))<br/>    s3_bucket_arn                    = string<br/>    s3_config_bucket_access_role_arn = optional(string)<br/>    s3_storage_class                 = optional(string)<br/>    s3_source_bucket_kms_arn         = optional(string)<br/>    s3_dest_bucket_kms_arn           = optional(string)<br/>    subdirectory                     = optional(string)<br/>    tags                             = optional(map(string))<br/>    create_role                      = optional(bool)<br/>  }))</pre> | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_datasync_role_arn"></a> [datasync\_role\_arn](#output\_datasync\_role\_arn) | DataSync IAM Role |
-| <a name="output_efs_locations"></a> [efs\_locations](#output\_efs\_locations) | DataSync Location ARN for EFS |
-| <a name="output_s3_locations"></a> [s3\_locations](#output\_s3\_locations) | DataSync Location ARN for S3 |
+| <a name="output_datasync_role_arn"></a> [datasync\_role\_arn](#output\_datasync\_role\_arn) | DataSync Task ARN |
+| <a name="output_efs_locations"></a> [efs\_locations](#output\_efs\_locations) | DataSync EFS Location ARN |
+| <a name="output_s3_locations"></a> [s3\_locations](#output\_s3\_locations) | DataSync S3 Location ARN |
 <!-- END_TF_DOCS -->
