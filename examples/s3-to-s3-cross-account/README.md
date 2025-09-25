@@ -6,6 +6,7 @@ This example demonstrates how to create a S3 to S3 replication scenario across A
 ![AWS Datasync S3 to S3 Cross Account](./datasync-examples-cross-account.png)
 
 In this example, the default source and destination account AWS CLI profiles are named as `source-account` and `destination-account` in [variables.tf](./variables.tf). Add the following text to the shared credentials file. Replace the sample values with the credentials you copied. Review [Authenticating with short-term credentials for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-short-term.html) documentation for more information.
+
 ```bash
 [source-account]
 aws_access_key_id = EXAMPLE
