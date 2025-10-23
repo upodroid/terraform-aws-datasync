@@ -1,10 +1,10 @@
 FROM public.ecr.aws/codebuild/amazonlinux2-x86_64-standard:4.0
-ENV TERRAFORM_VERSION=1.4.2
+ENV TERRAFORM_VERSION=1.12.2
 RUN cd /tmp && \
     wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin && chmod 755 /usr/local/bin/terraform
 
-ENV TFLINT_VERSION=v0.45.0
+ENV TFLINT_VERSION=v0.58.0
 
 RUN cd /tmp && \
     wget https://github.com/terraform-linters/tflint/releases/download/${TFLINT_VERSION}/tflint_linux_amd64.zip && \
