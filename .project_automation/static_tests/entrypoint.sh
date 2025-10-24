@@ -62,14 +62,24 @@ else
 fi
 #********** Terraform Docs *************
 echo 'Starting terraform-docs'
-TDOCS="$(terraform-docs --config ${PROJECT_PATH}/.config/.terraform-docs.yaml --lockfile=false ./)"
-git add -N README.md
+TDOCS="$(terraform-docs --config ${PROJECT_PATH}/.config/.terraform-docs.yaml --lockfile=false ./ --recursive)"
+
+# Process examples directories individually
+for example_dir in examples/*/; do
+  if [ -d "$example_dir" ] && [ -f "${example_dir}main.tf" ]; then
+    echo "Processing terraform-docs for $example_dir"
+    terraform-docs --config ${PROJECT_PATH}/.config/.terraform-docs.yaml --lockfile=false "$example_dir"
+  fi
+done
+
+git add -N README.md examples/*/README.md
 GDIFF="$(git diff --compact-summary)"
 if [ -z "$GDIFF" ]
 then
     echo "Success - Terraform Docs creation verified!"
 else
-    echo "Failure - Terraform Docs creation failed, ensure you have precommit installed and running before submitting the Pull Request"
+    echo "Failure - Terraform Docs creation failed, ensure you have precommit installed and running before submitting the Pull Request. TIPS: false error may occur if you have unstaged files in your repo"
+    echo "$GDIFF"
     exit 1
 fi
 #***************************************
