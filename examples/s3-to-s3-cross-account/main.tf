@@ -205,6 +205,7 @@ module "backup_tasks" {
       name                     = "s3_to_s3_cross_account_task"
       source_location_arn      = module.s3_source_location.s3_locations["source-bucket"].arn
       destination_location_arn = module.s3_dest_location.s3_locations["dest-bucket"].arn
+      task_mode                = "ENHANCED" # Use enhanced mode for S3-to-S3 cross-account transfers
       options = {
         posix_permissions = "NONE"
         uid               = "NONE"
