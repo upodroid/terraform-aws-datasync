@@ -7,6 +7,7 @@ resource "aws_datasync_task" "datasync_tasks" {
   destination_location_arn = each.value.destination_location_arn
   source_location_arn      = each.value.source_location_arn
   cloudwatch_log_group_arn = try(each.value.cloudwatch_log_group_arn, null)
+  task_mode                = try(each.value.task_mode, null)
 
   excludes {
     filter_type = try(each.value.excludes.filter_type, null)

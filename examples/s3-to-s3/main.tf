@@ -44,6 +44,7 @@ module "backup_tasks" {
       name                     = "s3-to-s3-backup"
       source_location_arn      = module.s3_location.s3_locations["source-bucket"].arn
       destination_location_arn = module.s3_location.s3_locations["dest-bucket"].arn
+      task_mode                = "ENHANCED" # Use enhanced mode for S3-to-S3 transfers
       options = {
         posix_permissions = "NONE"
         uid               = "NONE"
