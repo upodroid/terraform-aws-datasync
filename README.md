@@ -90,7 +90,6 @@ module "backup_tasks" {
       name                     = "efs_to_s3"
       source_location_arn      = module.s3_location.s3_locations["datasync-s3"].arn
       destination_location_arn = module.efs_location.efs_locations["datasync-efs"].arn
-      task_mode                = "ENHANCED" # Use enhanced mode for S3-to-S3 transfers (optional)
         options = {
           posix_permissions = "NONE"
           uid               = "NONE"
@@ -220,7 +219,7 @@ If you are interested in contributing to the Storage Gateway module, see the [Co
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.18.0 |
 
 ## Modules
 
