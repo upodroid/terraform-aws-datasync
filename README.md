@@ -83,6 +83,7 @@ Two locations, one as source and other as destination are required for the [Data
 #### Enhanced Mode Support
 
 The DataSync Task module supports **Enhanced Mode** for S3-to-S3 transfers, providing:
+
 - Higher performance through parallel processing
 - Support for unlimited numbers of objects
 - Better monitoring with structured JSON logging
