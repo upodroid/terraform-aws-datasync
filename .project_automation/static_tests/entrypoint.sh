@@ -43,23 +43,41 @@ else
     EXIT_CODE=1
 fi
 
-<<<<<<< before updating
-#********** Checkov Analysis *************
-echo "Running Checkov Analysis"
-checkov --config-file ${PROJECT_PATH}/.config/.checkov.yml
-if [ $? -eq 0 ]
-then 
-    echo "Success - checkov found no security issues!"
-    echo "$MYCHECKOV"
-else
-    echo "Failure - checkov found security issues!"
-    echo "$MYCHECKOV"
-    exit 1
-fi
-=======
 #********** Post-entrypoint helper *************
 post_entrypoint
->>>>>>> after updating
 
-#********** Exit Code *************
-exit $EXIT_CODE
+#********** Markdown Lint **************
+echo 'Starting markdown lint'
+MYMDL=$(mdl --config ${PROJECT_PATH}/.config/.mdlrc .header.md examples/*/.header.md || true)
+if [ -z "$MYMDL" ]
+then
+    echo "Success - markdown lint found no linting issues!"
+else
+    echo "Failure - markdown lint found linting issues!"
+    echo "$MYMDL"
+    exit 1
+fi
+#********** Terraform Docs *************
+echo 'Starting terraform-docs'
+TDOCS="$(terraform-docs --config ${PROJECT_PATH}/.config/.terraform-docs.yaml --lockfile=false ./ --recursive)"
+
+# Process examples directories individually
+for example_dir in examples/*/; do
+  if [ -d "$example_dir" ] && [ -f "${example_dir}main.tf" ]; then
+    echo "Processing terraform-docs for $example_dir"
+    terraform-docs --config ${PROJECT_PATH}/.config/.terraform-docs.yaml --lockfile=false "$example_dir"
+  fi
+done
+
+git add -N README.md examples/*/README.md
+GDIFF="$(git diff --compact-summary)"
+if [ -z "$GDIFF" ]
+then
+    echo "Success - Terraform Docs creation verified!"
+else
+    echo "Failure - Terraform Docs creation failed, ensure you have precommit installed and running before submitting the Pull Request. TIPS: false error may occur if you have unstaged files in your repo"
+    echo "$GDIFF"
+    exit 1
+fi
+#***************************************
+echo "End of Static Tests"

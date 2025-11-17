@@ -70,11 +70,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_datasync_tasks"></a> [datasync\_tasks](#input\_datasync\_tasks) | A list of task configurations | <pre>list(object({<br>    destination_location_arn = string<br>    source_location_arn      = string<br>    cloudwatch_log_group_arn = optional(string)<br>    excludes                 = optional(object({filter_type = string, value = string}))<br>    includes                 = optional(object({filter_type = string, value = string}))<br>    name                     = optional(string)<br>    options                  = optional(map(string))<br>    schedule_expression      = optional(string)<br>    tags                     = optional(map(string))<br>  }))</pre> | `[]` | no |
+| <a name="input_datasync_tasks"></a> [datasync\_tasks](#input\_datasync\_tasks) | A list of task configurations | <pre>list(object({<br/>    destination_location_arn = string<br/>    source_location_arn      = string<br/>    cloudwatch_log_group_arn = optional(string)<br/>    excludes                 = optional(object({ filter_type = string, value = string }))<br/>    includes                 = optional(object({ filter_type = string, value = string }))<br/>    name                     = optional(string)<br/>    options                  = optional(map(string))<br/>    schedule_expression      = optional(string)<br/>    tags                     = optional(map(string))<br/>  }))</pre> | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_datasync_tasks"></a> [datasync\_tasks](#output\_datasync\_tasks) | n/a |
+| <a name="output_datasync_tasks"></a> [datasync\_tasks](#output\_datasync\_tasks) | DataSync Task ARN |
 <!-- END_TF_DOCS -->

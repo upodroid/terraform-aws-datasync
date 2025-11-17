@@ -10,17 +10,35 @@ cd ${PROJECT_PATH}
 
 #********** Terraform Test **********
 
-# Look up the mandatory test file
-MANDATORY_TEST_PATH="./tests/01_mandatory.tftest.hcl"
-if test -f ${MANDATORY_TEST_PATH}; then
-    echo "File ${MANDATORY_TEST_PATH} is found, resuming test"
-    # Run Terraform test
-    terraform init
-    terraform test
+# Look up the mandatory test files
+EXAMPLE_1_TEST_PATH="./tests/01_efs_to_s3.tftest.hcl"
+EXAMPLE_2_TEST_PATH="./tests/02_s3_to_s3.tftest.hcl"
+#EXAMPLE_3_TEST_PATH="./tests/03_s3_to_s3_xaccount.tftest.hcl"
+
+if test -f ${EXAMPLE_1_TEST_PATH}; then
+    echo "File ${EXAMPLE_1_TEST_PATH} is found, resuming test"
 else
-    echo "File ${MANDATORY_TEST_PATH} not found. You must include at least one test run in file ${MANDATORY_TEST_PATH}"
+    echo "File ${EXAMPLE_1_TEST_PATH} not found. You must include at least one test run in file ${EXAMPLE_1_TEST_PATH}"
     (exit 1)
 fi 
+
+if test -f ${EXAMPLE_2_TEST_PATH}; then
+    echo "File ${EXAMPLE_2_TEST_PATH} is found, resuming test"
+else
+    echo "File ${EXAMPLE_2_TEST_PATH} not found. You must include at least one test run in file ${EXAMPLE_2_TEST_PATH}"
+    (exit 1)
+fi 
+
+# if test -f ${EXAMPLE_3_TEST_PATH}; then
+#     echo "File ${EXAMPLE_3_TEST_PATH} is found, resuming test"
+# else
+#     echo "File ${EXAMPLE_3_TEST_PATH} not found. You must include at least one test run in file ${EXAMPLE_3_TEST_PATH}"
+#     (exit 1)
+# fi 
+
+# Run Terraform test
+terraform init
+terraform test
 
 if [ $? -eq 0 ]; then
     echo "Terraform Test Successfull"
