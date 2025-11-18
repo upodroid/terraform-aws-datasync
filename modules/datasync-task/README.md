@@ -20,9 +20,9 @@ This module supports AWS DataSync Enhanced Mode for improved performance and cap
 
 ### Enhanced Mode Considerations
 
-- **Bandwidth Limits**: Not supported (set `bytes_per_second = -1` or omit)
+- **Bandwidth Limits**: Not supported (omit `bytes_per_second` parameter)
 - **Object Tags**: Safe to use `object_tags = "PRESERVE"` for S3-to-S3 transfers
-- **Verification**: Recommended to use `verify_mode = "ONLY_FILES_TRANSFERRED"`
+- **Verification**: Only `verify_mode = "ONLY_FILES_TRANSFERRED"` or `verify_mode = "NONE"` are supported. `POINT_IN_TIME_CONSISTENT` is not supported with enhanced mode.
 - **Failure Handling**: Enhanced mode fails immediately for unsupported object tagging scenarios
 
 For more details, see: [AWS DataSync Task Mode Documentation](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html)
