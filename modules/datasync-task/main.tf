@@ -23,15 +23,11 @@ resource "aws_datasync_task" "datasync_tasks" {
   name = try(each.value.name, null)
   options {
     atime                          = try(each.value.options.atime, null)
-    # WARNING: Enhanced mode does not support bandwidth limits (bytes_per_second)
-    # Setting bytes_per_second with enhanced mode may cause task creation to fail
     bytes_per_second               = try(each.value.options.bytes_per_second, null)
     gid                            = try(each.value.options.gid, null)
     log_level                      = try(each.value.options.log_level, null)
     mtime                          = try(each.value.options.mtime, null)
-    # WARNING: Enhanced mode with object_tags = "PRESERVE" will fail immediately 
-    # if locations don't support object tagging (S3-to-S3 supports tagging)
-    object_tags                    = try(each.value.options.object_tags, null)
+    object_tags                    = try(each.value.options.object_tags, null) # Enhanced mode with object_tags = "PRESERVE" requires locations that support object tagging (e.g., S3-to-S3)
     overwrite_mode                 = try(each.value.options.overwrite_mode, null)
     posix_permissions              = try(each.value.options.posix_permissions, null)
     preserve_deleted_files         = try(each.value.options.preserve_deleted_files, null)
@@ -40,8 +36,7 @@ resource "aws_datasync_task" "datasync_tasks" {
     task_queueing                  = try(each.value.options.task_queueing, null)
     transfer_mode                  = try(each.value.options.transfer_mode, null)
     uid                            = try(each.value.options.uid, null)
-    # Enhanced mode only verifies transferred data, not all data (recommended: ONLY_FILES_TRANSFERRED)
-    verify_mode                    = try(each.value.options.verify_mode, null)
+    verify_mode                    = try(each.value.options.verify_mode, null) # Enhanced mode supports: ONLY_FILES_TRANSFERRED or NONE
 
   }
 
