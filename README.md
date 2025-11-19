@@ -89,7 +89,7 @@ The DataSync Task module supports **Enhanced Mode** for transfers between suppor
 - Better monitoring with structured JSON logging
 - Optimized data verification
 
-Enhanced mode is available for S3-to-S3 transfers (same-account and cross-account), as well as cross-cloud transfers. Currently, the DataSync Locations module supports creating S3 locations. For cross-cloud transfers, you can create the necessary location resources outside of this module and reference them in your task configuration. See the [DataSync Task Module documentation](modules/datasync-task/) for detailed requirements and considerations.
+Enhanced mode is available for S3-to-S3 transfers (same-account and cross-account), as well as cross-cloud transfers(ObjectStorage Location and Azure Blob Location). Currently, the DataSync Locations module supports creating S3 locations. For cross-cloud transfers, you can create the necessary location resources outside of this module and reference them in your task configuration. See the [DataSync Task Module documentation](modules/datasync-task/) for detailed requirements and considerations.
 
   Example :
 
