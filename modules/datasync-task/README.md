@@ -21,7 +21,7 @@ This module supports AWS DataSync Enhanced Mode for improved performance and cap
 ### Enhanced Mode Considerations
 
 - **Bandwidth Limits**: Not supported (omit `bytes_per_second` parameter)
-- **Object Tags**: Safe to use `object_tags = "PRESERVE"` for S3-to-S3 transfers
+- **Object Tags**: `object_tags = "PRESERVE"` is supported for S3-to-S3 and cross-cloud transfers where both locations support object tagging. Enhanced mode will fail immediately if locations don't support tagging.
 - **Verification**: Only `verify_mode = "ONLY_FILES_TRANSFERRED"` or `verify_mode = "NONE"` are supported. `POINT_IN_TIME_CONSISTENT` is not supported with enhanced mode.
 - **Failure Handling**: Enhanced mode fails immediately for unsupported object tagging scenarios
 
@@ -49,7 +49,7 @@ To configure one or more AWS DataSync Tasks use the `datasync_tasks` variable. I
 gid - (Optional) Group identifier of the file's owners. Valid values: BOTH, INT\_VALUE, NAME, NONE. Default: INT\_VALUE (preserve integer value of the ID).
 - `log_level` - (Optional) Determines the type of logs that DataSync publishes to a log stream in the Amazon CloudWatch log group that you provide. Valid values: OFF, BASIC, TRANSFER. Default: OFF.
 mtime - (Optional) A file metadata that indicates the last time a file was modified (written to) before the sync PREPARING phase. Value values: NONE, PRESERVE. Default: PRESERVE.
-- `object_tags` - (Optional) Specifies whether object tags are maintained when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value. Valid values: PRESERVE, NONE. Default value: PRESERVE.
+- `object_tags` - (Optional) Specifies whether object tags are maintained when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value. Valid values: PRESERVE, NONE. Default value: PRESERVE. Note: PRESERVE is allowed in enhanced mode only for S3 to S3 and other locations where object tagging is enabled.  
 - `overwrite_mode` - (Optional) Determines whether files at the destination should be overwritten or preserved when copying files. Valid values: ALWAYS, NEVER. Default: ALWAYS.
 - `posix_permissions` - (Optional) Determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. Valid values: NONE, PRESERVE. Default: PRESERVE.
 - `preserve_deleted_files` - (Optional) Whether files deleted in the source should be removed or preserved in the destination file system. Valid values: PRESERVE, REMOVE. Default: PRESERVE.
