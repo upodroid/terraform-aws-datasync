@@ -27,7 +27,7 @@ resource "aws_datasync_task" "datasync_tasks" {
     gid                            = try(each.value.options.gid, null)
     log_level                      = try(each.value.options.log_level, null)
     mtime                          = try(each.value.options.mtime, null)
-    object_tags                    = try(each.value.options.object_tags, null) # Enhanced mode: object_tags = "PRESERVE" is supported for S3-to-S3 and cross-cloud transfers where both locations support object tagging. Task will fail immediately if locations don't support tagging.
+    object_tags                    = try(each.value.options.object_tags, null) # Enhanced mode: object_tags = "PRESERVE" is supported for S3-to-S3 and cross-cloud transfers where both locations support object tagging. For locations without tag support, use object_tags = "NONE".
     overwrite_mode                 = try(each.value.options.overwrite_mode, null)
     posix_permissions              = try(each.value.options.posix_permissions, null)
     preserve_deleted_files         = try(each.value.options.preserve_deleted_files, null)
