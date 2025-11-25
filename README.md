@@ -80,6 +80,17 @@ The examples also includes "aws\_kms\_key" resource block to create a KMS key wi
 
 Two locations, one as source and other as destination are required for the [Datasync task configuration](https://docs.aws.amazon.com/datasync/latest/userguide/create-task-how-to.html). Once the locations are configured, they need to be passed as source location arn and destination location arn to the next module for Datasync task configuration.For more details regarding the DataSync Task configuration and their respective arguments can be found [here](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/datasync_task).
 
+#### Enhanced Mode Support
+
+The DataSync Task module supports **Enhanced Mode** for transfers between supported locations, providing:
+
+- Higher performance through parallel processing
+- Support for unlimited numbers of objects
+- Better monitoring with structured JSON logging
+- Optimized data verification
+
+Enhanced mode is available for S3-to-S3 transfers (same-account and cross-account), as well as cross-cloud transfers(ObjectStorage Location and Azure Blob Location). Currently, the DataSync Locations module supports creating S3 locations. For cross-cloud transfers, you can create the necessary location resources outside of this module and reference them in your task configuration. See the [DataSync Task Module documentation](modules/datasync-task/) for detailed requirements and considerations.
+
   Example :
 
 ```hcl
@@ -88,14 +99,35 @@ module "backup_tasks" {
   datasync_tasks = [
     {
       name                     = "efs_to_s3"
-      source_location_arn      = module.s3_location.s3_locations["datasync-s3"].arn
-      destination_location_arn = module.efs_location.efs_locations["datasync-efs"].arn
-        options = {
-          posix_permissions = "NONE"
-          uid               = "NONE"
-          gid               = "NONE"
-        }
-      schedule_expression = "cron(0 6 ? * MON-FRI *)" # Run at 6:00 am (UTC) every Monday through Friday:
+      source_location_arn      = module.efs_location.efs_locations["datasync-efs"].arn
+      destination_location_arn = module.s3_location.s3_locations["datasync-s3"].arn
+      options = {
+        posix_permissions = "NONE"
+        uid               = "NONE"
+        gid               = "NONE"
+        verify_mode       = "ONLY_FILES_TRANSFERRED"
+      }
+      schedule_expression = "cron(0 6 ? * MON-FRI *)" # Run at 6:00 am (UTC) every Monday through Friday
+    }
+  ]
+}
+```
+
+Example with Enhanced Mode (S3-to-S3 only):
+
+```hcl
+module "s3_to_s3_tasks" {
+  source = "aws-ia/datasync/aws//modules/datasync-task"
+  datasync_tasks = [
+    {
+      name                     = "s3_to_s3"
+      source_location_arn      = module.s3_source_location.s3_locations["datasync-s3-source"].arn
+      destination_location_arn = module.s3_dest_location.s3_locations["datasync-s3-dest"].arn
+      task_mode                = "ENHANCED"
+      options = {
+        verify_mode = "ONLY_FILES_TRANSFERRED" # Enhanced mode supports ONLY_FILES_TRANSFERRED or NONE
+      }
+      schedule_expression = "cron(0 6 ? * MON-FRI *)" # Run at 6:00 am (UTC) every Monday through Friday
     }
   ]
 }
