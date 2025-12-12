@@ -9,6 +9,7 @@ variable "s3_locations" {
     subdirectory                     = optional(string)
     tags                             = optional(map(string))
     create_role                      = optional(bool)
+    region                           = optional(string)
   }))
   default     = []
   description = "A list of S3 locations and associated configuration"
@@ -26,6 +27,7 @@ variable "efs_locations" {
     in_transit_encryption          = optional(string)
     subdirectory                   = optional(string)
     tags                           = optional(map(string))
+    region                         = optional(string)
   }))
   default     = []
   description = "A list of EFS locations and associated configuration"

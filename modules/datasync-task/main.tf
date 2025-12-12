@@ -9,7 +9,8 @@ resource "aws_datasync_task" "datasync_tasks" {
   # Enhanced mode is only supported for S3-to-S3, Azure Blob-to-S3, and other cloud-to-S3 transfers
   # Enhanced mode requires iam:CreateServiceLinkedRole permission
   # Once set, task_mode cannot be changed after task creation
-  task_mode                = try(each.value.task_mode, null)
+  task_mode = try(each.value.task_mode, null)
+  region    = try(each.value.region, null)
 
   excludes {
     filter_type = try(each.value.excludes.filter_type, null)

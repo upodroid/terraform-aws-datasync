@@ -10,6 +10,7 @@ variable "datasync_tasks" {
     schedule_expression      = optional(string)
     tags                     = optional(map(string))
     task_mode                = optional(string)
+    region                   = optional(string)
   }))
   default     = []
   description = "A list of task configurations"
